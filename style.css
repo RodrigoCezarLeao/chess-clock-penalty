@@ -1,3 +1,19 @@
+* {margin: 0px; padding: 0px;}
+
+:root {
+    --cor1: #EB6C7D;
+    --cor2: #806CEB;
+    --cor3: white;
+}
+
+body { font-family: 'Verdana'; }
+
+header {background-color: var(--cor1); padding: 15px;}
+header h2 {margin: 20px 0px;}
+header button {padding: 6px 10px; background: var(--cor2); color: white; border: none; border: 2px solid var(--cor1); cursor: pointer;}
+header button:hover {border: 2px solid var(--cor3);}
+
+
 div#container {
     border: 1px solid black;
 }

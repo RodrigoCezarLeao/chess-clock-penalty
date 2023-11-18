@@ -7,12 +7,36 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header>
+        <h2>Configurações do Relógio</h2>
+
+        <label>
+            Tempo Relógio A
+            <input type="time" id="time-config-teamA"/>
+        </label>
+
+        <br/>
+
+        <label>
+            Tempo Relógio B
+            <input type="time" id="time-config-teamB"/>
+        </label>
+
+        <br />
+        <button onclick="resetClockConfigs()">Aplicar</button>
+        
+    </header>
+
+
     <div id="container">
+
+
         <div id="teamA">
             00:00
         </div>
         
-        <button>Iniciar</button>
+        <button onclick="startClocks()">Iniciar</button>
+        <button onclick="pauseClocks()">Pausar</button>
 
         <div id="teamB">
             00:00
