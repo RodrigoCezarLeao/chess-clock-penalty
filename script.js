@@ -1,4 +1,6 @@
-var clockInterval;
+var clockInterval_teamA;
+var clockInterval_teamB;
+var teamOfTurn = "teamB";
 
 function getClockTime(id) {
   let element = document.getElementById(id);
@@ -24,33 +26,48 @@ function convertSecondsToTime(seconds) {
 }
 
 function pauseClocks() {
-  clearInterval(clockInterval);
+  pauseClock("teamA");
+  pauseClock("teamB");
+}
+
+function pauseClock(clock) {
+  if (clock === "teamA") {
+    clearInterval(clockInterval_teamA);
+    clockInterval_teamA = undefined;
+  } else if (clock === "teamB") {
+    clearInterval(clockInterval_teamB);
+    clockInterval_teamB = undefined;
+  }
 }
 
 function startClocks() {
-  clockInterval = setInterval(() => updateClock(), 1000);
+  if (teamOfTurn === "teamB" && clockInterval_teamB === undefined) {
+    let aux = teamOfTurn.toString();
+    clockInterval_teamB = setInterval(() => updateClock(aux), 1000);
+    pauseClock("teamA");
+    teamOfTurn = "teamA";
+  } else if (teamOfTurn === "teamA" && clockInterval_teamA === undefined) {
+    let aux = teamOfTurn.toString();
+    clockInterval_teamA = setInterval(() => updateClock(aux), 1000);
+    pauseClock("teamB");
+    teamOfTurn = "teamB";
+  }
 }
 
-function updateClock() {
-  // Capturar informações dos relógios
-  let timeA = getClockTime("teamA");
-  let timeB = getClockTime("teamB");
-
-  // Converter para segundos numéricos
-  let timeA_seconds = convertTimeToSeconds(timeA);
-  let timeB_seconds = convertTimeToSeconds(timeB);
-
-  // Subtrair 1 segundo
-  timeA_seconds--;
-  timeB_seconds--;
-
-  // Converter para tempo formatado
-  let timeA_formatted = convertSecondsToTime(timeA_seconds);
-  let timeB_formatted = convertSecondsToTime(timeB_seconds);
-
-  // Atualizar no relógio
-  setClockTime("teamA", timeA_formatted);
-  setClockTime("teamB", timeB_formatted);
+function updateClock(team) {
+  if (team === "teamB") {
+    let timeB = getClockTime("teamB");
+    let timeB_seconds = convertTimeToSeconds(timeB);
+    timeB_seconds--;
+    let timeB_formatted = convertSecondsToTime(timeB_seconds);
+    setClockTime("teamB", timeB_formatted);
+  } else if (team === "teamA") {
+    let timeA = getClockTime("teamA");
+    let timeA_seconds = convertTimeToSeconds(timeA);
+    timeA_seconds--;
+    let timeA_formatted = convertSecondsToTime(timeA_seconds);
+    setClockTime("teamA", timeA_formatted);
+  }
 }
 
 function resetClockConfigs() {
