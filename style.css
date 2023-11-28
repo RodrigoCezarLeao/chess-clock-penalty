@@ -16,4 +16,28 @@ header button:hover {border: 2px solid var(--cor3);}
 
 div#container {
     border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+    gap: 10px;
+    font-size: 2em;
+    position: relative;
+}
+
+div#container button {
+    font-size: 1.5em;
+    padding: 10px;
+}
+
+div#container p {
+    font-weight: bold;
+}
+
+div#container div.team-header {
+    display: flex;
+}
+
+#arrow-A {
+    visibility: hidden;
 }

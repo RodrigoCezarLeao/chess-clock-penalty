@@ -31,6 +31,12 @@ function pauseClocks() {
 }
 
 function pauseClock(clock) {
+    // if(clockInterval_teamA === undefined && clockInterval_teamB === undefined)
+    // {
+    //     startClocks();
+    //     return;
+    // }
+
   if (clock === "teamA") {
     clearInterval(clockInterval_teamA);
     clockInterval_teamA = undefined;
@@ -46,11 +52,15 @@ function startClocks() {
     clockInterval_teamB = setInterval(() => updateClock(aux), 1000);
     pauseClock("teamA");
     teamOfTurn = "teamA";
+    document.getElementById("arrow-B").style.visibility = "visible";
+    document.getElementById("arrow-A").style.visibility = "hidden";
   } else if (teamOfTurn === "teamA" && clockInterval_teamA === undefined) {
     let aux = teamOfTurn.toString();
     clockInterval_teamA = setInterval(() => updateClock(aux), 1000);
     pauseClock("teamB");
     teamOfTurn = "teamB";
+    document.getElementById("arrow-A").style.visibility = "visible";
+    document.getElementById("arrow-B").style.visibility = "hidden";
   }
 }
 
