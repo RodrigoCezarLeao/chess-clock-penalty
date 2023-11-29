@@ -26,25 +26,27 @@ function convertSecondsToTime(seconds) {
 }
 
 function pauseClocks() {
-  pauseClock("teamA");
-  pauseClock("teamB");
+  if(clockInterval_teamA === undefined && clockInterval_teamB === undefined)
+  {
+      teamOfTurn = teamOfTurn === "teamA" ? "teamB" : "teamA";
+      startClocks();
+      return;
+  }else {
+    pauseClock("teamA");
+    pauseClock("teamB");
+  }
 }
 
 function pauseClock(clock) {
-    // if(clockInterval_teamA === undefined && clockInterval_teamB === undefined)
-    // {
-    //     startClocks();
-    //     return;
-    // }
-
-  if (clock === "teamA") {
-    clearInterval(clockInterval_teamA);
-    clockInterval_teamA = undefined;
-  } else if (clock === "teamB") {
-    clearInterval(clockInterval_teamB);
-    clockInterval_teamB = undefined;
-  }
+    if (clock === "teamA") {
+      clearInterval(clockInterval_teamA);
+      clockInterval_teamA = undefined;
+    } else if (clock === "teamB") {
+      clearInterval(clockInterval_teamB);
+      clockInterval_teamB = undefined;
+    }
 }
+
 
 function startClocks() {
   if (teamOfTurn === "teamB" && clockInterval_teamB === undefined) {
@@ -101,3 +103,8 @@ function resetClockConfigs() {
   setClockTime("teamA", timeA_formatted);
   setClockTime("teamB", timeB_formatted);
 }
+
+
+document.getElementById("time-config-teamA").value = "05:00";
+document.getElementById("time-config-teamB").value = "05:00";
+resetClockConfigs();
