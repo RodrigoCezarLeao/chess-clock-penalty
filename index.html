@@ -3,72 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Chess Clock Penalty</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h2>Configurações do Relógio</h2>
+        <div id="flags">
+            <img class="language" onclick="changeLanguage('pt-br')" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Flag_of_Brazil.svg/1280px-Flag_of_Brazil.svg.png"/>
+            <img class="language" onclick="changeLanguage('en-us')"src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/1280px-Flag_of_the_United_States.svg.png"/>
+        </div>
+        
+        <h2 id="config_h2"></h2>
 
         <label>
-            Tempo Relógio A
+            <span id="clock_config_A"></span>
             <input type="time" id="time-config-teamA"/>
         </label>
 
         <br/>
 
         <label>
-            Tempo Relógio B
+            <span id="clock_config_B"></span>
             <input type="time" id="time-config-teamB"/>
         </label>
 
+        <br/>
+
+        <label>
+            <span id="clock_config_penalty"></span>
+            <input type="time" id="time-penalty"/>
+        </label>
+
         <br />
-        <button onclick="resetClockConfigs()">Aplicar</button>
+        <button onclick="resetClockConfigs()" id="clock_config_submit">Aplicar</button>
     </header>
     <button id="colapse" onclick="colapseMenu()"></button>
 
-
-    <button onclick="resumeClock('teamA')">Iniciar A</button>
-    <button onclick="resumeClock('teamB')">Iniciar B</button>
-    <button onclick="pauseClock('teamA')">Pausar A</button>
-    <button onclick="pauseClock('teamB')">Pausar B</button>
-    <button onclick="pauseClocks()">Pausar Ambos</button>
-    <button onclick="changeClockTurnIndication('teamA')">Trocar p Time A</button>
-    <button onclick="changeClockTurnIndication('teamB')">Trocar p Time B</button>
-    <button onclick="handleGameClock()">Jogo</button>
-    <button onclick="pauseResumeClock()">Pausar/Retomar</button>
-    
-
     <div id="container">
 
-        <div class="team-header">
+        <div class="team-header">            
             <span id="arrow-A">&#8594;</span>
-            <p>Team A</p>
+            <p id="team_A_name"></p>            
         </div>
         <div id="teamA">
             00:00
         </div>
+
+        <div class="penaulty-line">
+            <img onclick="penalty('teamA')" src="https://icons-for-free.com/iconfiles/png/512/error-131994968044915593.png"/>
+            <span id="penalties_A"></span>
+            <span id="penalties_count_A">0</span>
+        </div>
         
-        <button onclick="startClocks()"><img style="width: 70px" src="https://cdn-icons-png.flaticon.com/512/109/109197.png"></button>
-        <button onclick="pauseClocks()"><img style="width: 70px" src="https://cdn-icons-png.flaticon.com/512/27/27185.png" /></button>
+        <button onclick="handleGameClock()"><img style="width: 70px" src="https://cdn-icons-png.flaticon.com/512/109/109197.png"></button>
+        <button onclick="pauseResumeClock()"><img style="width: 70px" src="https://cdn-icons-png.flaticon.com/512/27/27185.png" /></button>
+        
+        <div class="penaulty-line">
+            <img onclick="penalty('teamB')" src="https://icons-for-free.com/iconfiles/png/512/error-131994968044915593.png"/>
+            <span id="penalties_B"></span>
+            <span id="penalties_count_B">0</span>
+        </div>
 
         <div id="teamB">
             00:00
         </div>
 
-        <div class="team-header">
+        <div class="team-header">            
             <span id="arrow-B">&#8594;</span>
-            <p>Team B</p>
+            <p id="team_B_name"></p>            
         </div>
+        
     </div>
 
     <script src="script.js"></script>
+    <script src="translate.js"></script>
 </body>
 </html>
 
-<!-- Refatorar lógica JS -->
-<!-- Agregar botões -->
-<!-- Melhorar ícones dos botões e UX -->
-<!-- Botão de penalidade -->
-<!-- Colocar regras de zerar o relógio -->
-<!-- Colocar em en/pt -->
+<!-- Refatorar lógica JS - OK-->
+<!-- Agregar botões - OK-->
+<!-- Botão de penalidade - OK -->
+<!-- Melhorar ícones dos botões e UX - OK -->
+<!-- Colocar em en/pt - OK -->
+<!-- Colocar regras de zerar o relógio e desabilitar botões - OK -->
+<!-- Colocar contador de penalidades - OK -->
+<!-- Melhorar Ícones -->
+<!-- Habilitar JS ou informativo -->
+<!-- Colocar ícone shotcut -->
+<!-- Retirar penalidade -->
+<!-- Confirmar penalidades?? -->
+<!-- Log de 'jogadas' -->

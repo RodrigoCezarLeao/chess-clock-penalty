@@ -5,6 +5,7 @@ var teamOfTurn = "teamB";
 var isMenuColapsed = true;
 var isGamePaused = true;
 var isGameStarted = false;
+var isGameFinished = true;
 
 // Clock Helper Functions
 function getClockTime(id) {
@@ -31,7 +32,7 @@ function convertSecondsToTime(seconds) {
 }
 
 
-// Clock Actions Functions
+// Clock Singular Actions Functions
 function pauseClock(team) {
     if (team === "teamA") {
       clearInterval(clockInterval_teamA);
@@ -75,21 +76,43 @@ function resumeClock(team){
 
 function changeClockTurnIndication(team){
   if (team === "teamA"){
-    document.getElementById("arrow-A").style.visibility = "visible";
-    document.getElementById("arrow-B").style.visibility = "hidden";
+    document.getElementById("arrow-A").style.display = "block";
+    document.getElementById("arrow-B").style.display = "none";    
   }else if (team === "teamB"){
-    document.getElementById("arrow-B").style.visibility = "visible";
-    document.getElementById("arrow-A").style.visibility = "hidden";    
+    document.getElementById("arrow-B").style.display = "block";
+    document.getElementById("arrow-A").style.display = "none";    
   }
 }
 
+function penaltyTeam(team){
+    let penaltyValue = convertTimeToSeconds(getClockTime("time-penalty"));
+    let teamValue = convertTimeToSeconds(getClockTime(team));
+    let newTeamValue = teamValue > penaltyValue ? teamValue - penaltyValue : 0;
+    setClockTime(team, convertSecondsToTime(newTeamValue));
+    if(newTeamValue === 0)
+      isGameFinished = true;
+}
+
+function updatePenaltyCounter(team, reset = false){  
+  let element = document.getElementById(team === "teamA" ? "penalties_count_A" : "penalties_count_B");
+  element.innerText = reset ? 0 : Number(element.innerText) + 1;
+}
+
+
+// Game Clock Actions
 function handleGameClock(){
-  if (isGameStarted && isGamePaused){
-    alert("Resume game before continue!");
+  if (isGameStarted && isGameFinished){
+    alert(translateOnly("alert_game_has_ended"));
     return;
   }
 
+  if (isGameStarted && isGamePaused){
+    alert(translateOnly("alert_resume_game_before_continue"));
+    return;
+  }  
+
   isGameStarted = true;
+  isGameFinished = false;
 
   if(teamOfTurn === "teamB"){
     pauseClock("teamA");
@@ -105,6 +128,11 @@ function handleGameClock(){
 }
 
 function pauseResumeClock(){
+  if (isGameFinished && isGameStarted){
+    alert(translateOnly("alert_game_has_ended"));
+    return;
+  }
+
   if (isGameStarted){
     if(!isGamePaused){
       pauseClocks();
@@ -113,51 +141,24 @@ function pauseResumeClock(){
       resumeClock(teamToResume);
     }
   }else{
-    alert("The game has not started!")
+    alert(translateOnly("alert_game_has_not_started"));
+    return;
   }
 }
 
-
-
-// Refatorar
-function resetClockConfigs() {
-  pauseClocks();
-
-  // Capturar informações dos Inputs
-  let timeA = getClockTime("time-config-teamA");
-  let timeB = getClockTime("time-config-teamB");
-
-  // Validar dados
-  if (timeA === "" || timeB === "")
-    window.alert("Os valores definidos para os relógios não são válidos!");
-
-  // Tratar dados recebidos
-  let timeA_seconds = convertTimeToSeconds(timeA);
-  let timeB_seconds = convertTimeToSeconds(timeB);
-
-  // Converter os dados para apresentar (formatar)
-  let timeA_formatted = convertSecondsToTime(timeA_seconds);
-  let timeB_formatted = convertSecondsToTime(timeB_seconds);
-
-  // Atualizar na tela
-  setClockTime("teamA", timeA_formatted);
-  setClockTime("teamB", timeB_formatted);
-
-  teamOfTurn = "teamB";
-  document.getElementById("arrow-A").style.visibility = "visible";
-  document.getElementById("arrow-B").style.visibility = "hidden";
-  colapseMenu();
+function penalty(team){
+  if (!isGameFinished){
+    pauseClocks();  
+    penaltyTeam(team);
+    updatePenaltyCounter(team);
+  }else {
+    if (!isGameStarted)
+      alert(translateOnly("alert_game_has_not_started"));
+    else 
+      alert(translateOnly("alert_game_has_ended"));
+    return;
+  }
 }
-
-
-document.getElementById("time-config-teamA").value = "05:00";
-document.getElementById("time-config-teamB").value = "05:00";
-resetClockConfigs();
-pauseClocks();
-colapseMenu();
-changeClockTurnIndication("teamB");
-
-
 
 // General Configs Functions
 
@@ -173,3 +174,53 @@ function colapseMenu(){
   }
 }
 
+function resetClockConfigs() {
+  pauseClocks();
+
+  // Capturar informações dos Inputs
+  let timeA = getClockTime("time-config-teamA");
+  let timeB = getClockTime("time-config-teamB");
+
+  // Validar dados
+  if (timeA === "" || timeB === "")
+    alert(translateOnly("alert_clock_config_not_valid"));
+
+  // Tratar dados recebidos
+  let timeA_seconds = convertTimeToSeconds(timeA);
+  let timeB_seconds = convertTimeToSeconds(timeB);
+
+  // Converter os dados para apresentar (formatar)
+  let timeA_formatted = convertSecondsToTime(timeA_seconds);
+  let timeB_formatted = convertSecondsToTime(timeB_seconds);
+
+  // Atualizar na tela
+  setClockTime("teamA", timeA_formatted);
+  setClockTime("teamB", timeB_formatted);
+
+  teamOfTurn = "teamB";
+  document.getElementById("arrow-A").style.display = "block";
+  document.getElementById("arrow-B").style.display = "none";
+  colapseMenu();
+
+  updatePenaltyCounter("teamA", true);
+  updatePenaltyCounter("teamB", true);
+
+  isGameFinished = true;
+  isGamePaused = true;
+  isGameStarted = false;
+}
+
+
+function startDefaultClock(){
+  document.getElementById("time-config-teamA").value = "05:00";
+  document.getElementById("time-config-teamB").value = "05:00";
+  document.getElementById("time-penalty").value = "00:45";
+  resetClockConfigs();
+  pauseClocks();
+  changeClockTurnIndication("teamB");
+  updatePenaltyCounter("teamA", true);
+  updatePenaltyCounter("teamB", true);
+  //colapseMenu();
+}
+
+startDefaultClock();
