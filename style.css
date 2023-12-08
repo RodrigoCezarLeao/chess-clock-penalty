@@ -1,4 +1,5 @@
-* {margin: 0px; padding: 0px;}
+* {margin: 0px; padding: 0px; cursor: default;}
+input {cursor: pointer;}
 
 :root {
     --cor1: #EB6C7D;
@@ -9,14 +10,25 @@
 body { font-family: 'Verdana'; }
 
 header {background-color: var(--cor1); padding: 15px;}
-header h2 {margin: 20px 0px;}
+header h2 {margin-top: 40px; margin-bottom: 20px;}
 header button {padding: 6px 10px; background: var(--cor2); color: white; border: none; border: 2px solid var(--cor1); cursor: pointer;}
 header button:hover {border: 2px solid var(--cor3);}
+header label {margin-top: 10px;}
 
+div#flags {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+img.language {
+    width: 40px;
+    height: 28px;
+    cursor: pointer;
+}
 
 div#container {
-    padding-top: 100px;
-    /* border: 1px solid black; */
+    padding-top: 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -36,10 +48,18 @@ div#container p {
 
 div#container div.team-header {
     display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
+div#container img {
+    width: 25px;
+    cursor: pointer;    
+}
+
+
 #arrow-A {
-    visibility: hidden;
+    display: none;
 }
 
 button#colapse {
@@ -56,3 +76,5 @@ button#colapse {
     vertical-align: middle;
     z-index: 2;
 }
+
+div.penaulty-line {font-size: 0.6em; display: flex; align-items: center; justify-content: space-around; gap: 5px;}
