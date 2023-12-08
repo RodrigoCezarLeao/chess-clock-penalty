@@ -1,7 +1,12 @@
+// Variable Controls
 var clockInterval_teamA;
 var clockInterval_teamB;
 var teamOfTurn = "teamB";
+var isMenuColapsed = true;
+var isGamePaused = true;
+var isGameStarted = false;
 
+// Clock Helper Functions
 function getClockTime(id) {
   let element = document.getElementById(id);
 
@@ -25,45 +30,22 @@ function convertSecondsToTime(seconds) {
   );
 }
 
-function pauseClocks() {
-  if(clockInterval_teamA === undefined && clockInterval_teamB === undefined)
-  {
-      teamOfTurn = teamOfTurn === "teamA" ? "teamB" : "teamA";
-      startClocks();
-      return;
-  }else {
-    pauseClock("teamA");
-    pauseClock("teamB");
-  }
-}
 
-function pauseClock(clock) {
-    if (clock === "teamA") {
+// Clock Actions Functions
+function pauseClock(team) {
+    if (team === "teamA") {
       clearInterval(clockInterval_teamA);
       clockInterval_teamA = undefined;
-    } else if (clock === "teamB") {
+    } else if (team === "teamB") {
       clearInterval(clockInterval_teamB);
       clockInterval_teamB = undefined;
     }
 }
 
-
-function startClocks() {
-  if (teamOfTurn === "teamB" && clockInterval_teamB === undefined) {
-    let aux = teamOfTurn.toString();
-    clockInterval_teamB = setInterval(() => updateClock(aux), 1000);
-    pauseClock("teamA");
-    teamOfTurn = "teamA";
-    document.getElementById("arrow-B").style.visibility = "visible";
-    document.getElementById("arrow-A").style.visibility = "hidden";
-  } else if (teamOfTurn === "teamA" && clockInterval_teamA === undefined) {
-    let aux = teamOfTurn.toString();
-    clockInterval_teamA = setInterval(() => updateClock(aux), 1000);
-    pauseClock("teamB");
-    teamOfTurn = "teamB";
-    document.getElementById("arrow-A").style.visibility = "visible";
-    document.getElementById("arrow-B").style.visibility = "hidden";
-  }
+function pauseClocks() {  
+  pauseClock("teamA");
+  pauseClock("teamB");
+  isGamePaused = true;
 }
 
 function updateClock(team) {
@@ -82,7 +64,65 @@ function updateClock(team) {
   }
 }
 
+function resumeClock(team){
+  isGamePaused = false;
+  if (team === "teamA" && clockInterval_teamA === undefined) {
+    clockInterval_teamA = setInterval(() => updateClock("teamA"), 1000);    
+  } else if (team === "teamB" && clockInterval_teamB === undefined) {
+    clockInterval_teamB = setInterval(() => updateClock("teamB"), 1000);
+  }
+}
+
+function changeClockTurnIndication(team){
+  if (team === "teamA"){
+    document.getElementById("arrow-A").style.visibility = "visible";
+    document.getElementById("arrow-B").style.visibility = "hidden";
+  }else if (team === "teamB"){
+    document.getElementById("arrow-B").style.visibility = "visible";
+    document.getElementById("arrow-A").style.visibility = "hidden";    
+  }
+}
+
+function handleGameClock(){
+  if (isGameStarted && isGamePaused){
+    alert("Resume game before continue!");
+    return;
+  }
+
+  isGameStarted = true;
+
+  if(teamOfTurn === "teamB"){
+    pauseClock("teamA");
+    changeClockTurnIndication("teamB");
+    resumeClock("teamB");
+    teamOfTurn = "teamA";
+  }else if(teamOfTurn === "teamA"){
+    pauseClock("teamB");
+    changeClockTurnIndication("teamA");
+    resumeClock("teamA");
+    teamOfTurn = "teamB";
+  }
+}
+
+function pauseResumeClock(){
+  if (isGameStarted){
+    if(!isGamePaused){
+      pauseClocks();
+    }else{
+      let teamToResume = teamOfTurn === "teamA" ? "teamB" : "teamA";
+      resumeClock(teamToResume);
+    }
+  }else{
+    alert("The game has not started!")
+  }
+}
+
+
+
+// Refatorar
 function resetClockConfigs() {
+  pauseClocks();
+
   // Capturar informações dos Inputs
   let timeA = getClockTime("time-config-teamA");
   let timeB = getClockTime("time-config-teamB");
@@ -102,9 +142,34 @@ function resetClockConfigs() {
   // Atualizar na tela
   setClockTime("teamA", timeA_formatted);
   setClockTime("teamB", timeB_formatted);
+
+  teamOfTurn = "teamB";
+  document.getElementById("arrow-A").style.visibility = "visible";
+  document.getElementById("arrow-B").style.visibility = "hidden";
+  colapseMenu();
 }
 
 
 document.getElementById("time-config-teamA").value = "05:00";
 document.getElementById("time-config-teamB").value = "05:00";
 resetClockConfigs();
+pauseClocks();
+colapseMenu();
+changeClockTurnIndication("teamB");
+
+
+
+// General Configs Functions
+
+function colapseMenu(){
+  isMenuColapsed = !isMenuColapsed;
+
+  if(isMenuColapsed){
+    document.getElementById("colapse").innerHTML = "&darr;";
+    document.getElementsByTagName("header")[0].style.display = "none";
+  }else{
+    document.getElementById("colapse").innerHTML = "&uarr;";
+    document.getElementsByTagName("header")[0].style.display = "block";
+  }
+}
+

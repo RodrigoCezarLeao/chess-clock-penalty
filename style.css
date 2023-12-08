@@ -15,7 +15,8 @@ header button:hover {border: 2px solid var(--cor3);}
 
 
 div#container {
-    border: 1px solid black;
+    padding-top: 100px;
+    /* border: 1px solid black; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -39,4 +40,19 @@ div#container div.team-header {
 
 #arrow-A {
     visibility: hidden;
+}
+
+button#colapse {
+    position: absolute; 
+    left: 0; 
+    right: 0; 
+    margin-left: auto; 
+    margin-right: auto; 
+    width: 50px;
+    font-weight: bold;
+    font-size: 1.3em;
+    cursor: pointer;
+    text-align: center;
+    vertical-align: middle;
+    z-index: 2;
 }

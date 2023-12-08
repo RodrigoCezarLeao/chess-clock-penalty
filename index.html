@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,9 +24,20 @@
 
         <br />
         <button onclick="resetClockConfigs()">Aplicar</button>
-        
     </header>
+    <button id="colapse" onclick="colapseMenu()"></button>
 
+
+    <button onclick="resumeClock('teamA')">Iniciar A</button>
+    <button onclick="resumeClock('teamB')">Iniciar B</button>
+    <button onclick="pauseClock('teamA')">Pausar A</button>
+    <button onclick="pauseClock('teamB')">Pausar B</button>
+    <button onclick="pauseClocks()">Pausar Ambos</button>
+    <button onclick="changeClockTurnIndication('teamA')">Trocar p Time A</button>
+    <button onclick="changeClockTurnIndication('teamB')">Trocar p Time B</button>
+    <button onclick="handleGameClock()">Jogo</button>
+    <button onclick="pauseResumeClock()">Pausar/Retomar</button>
+    
 
     <div id="container">
 
@@ -54,3 +65,10 @@
     <script src="script.js"></script>
 </body>
 </html>
+
+<!-- Refatorar lógica JS -->
+<!-- Agregar botões -->
+<!-- Melhorar ícones dos botões e UX -->
+<!-- Botão de penalidade -->
+<!-- Colocar regras de zerar o relógio -->
+<!-- Colocar em en/pt -->
