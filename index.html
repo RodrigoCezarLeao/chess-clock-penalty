@@ -37,7 +37,10 @@
         <br />
         <button onclick="resetClockConfigs()" id="clock_config_submit">Aplicar</button>
     </header>
-    <button id="colapse" onclick="colapseMenu()"></button>
+    <button id="collapse" onclick="collapseMenu()">
+        <img id="collapse-img" />
+    </button>
+    
 
     <div id="container">
 
@@ -55,8 +58,13 @@
             <span id="penalties_count_A">0</span>
         </div>
         
-        <button onclick="handleGameClock()"><img style="width: 70px" src="https://cdn-icons-png.flaticon.com/512/109/109197.png"></button>
-        <button onclick="pauseResumeClock()"><img style="width: 70px" src="https://cdn-icons-png.flaticon.com/512/27/27185.png" /></button>
+        <!-- <button onclick="handleGameClock()"><img style="width: 70px" src="https://cdn-icons-png.flaticon.com/512/109/109197.png"></button> -->
+        <button class="main-buttons" onclick="handleGameClock()">
+            <p id="start_game"></p>
+            <p id="turn_team"></p>
+        </button>
+        <!-- <button onclick="pauseResumeClock()"><img style="width: 70px" src="https://cdn-icons-png.flaticon.com/512/27/27185.png" /></button> -->
+        <button class="main-buttons" onclick="pauseResumeClock()"><img src="assets/play-pause.png" /></button>
         
         <div class="penaulty-line">
             <img onclick="penalty('teamB')" src="https://icons-for-free.com/iconfiles/png/512/error-131994968044915593.png"/>
@@ -87,7 +95,7 @@
 <!-- Colocar em en/pt - OK -->
 <!-- Colocar regras de zerar o relógio e desabilitar botões - OK -->
 <!-- Colocar contador de penalidades - OK -->
-<!-- Melhorar Ícones -->
+<!-- Melhorar Ícones - OK -->
 <!-- Habilitar JS ou informativo -->
 <!-- Colocar ícone shotcut -->
 <!-- Retirar penalidade -->
