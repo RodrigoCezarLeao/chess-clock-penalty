@@ -52,12 +52,20 @@ function updateClock(team) {
   if (team === "teamB") {
     let timeB = getClockTime("teamB");
     let timeB_seconds = convertTimeToSeconds(timeB);
+    if (timeB_seconds === 0) {
+      clearInterval(clockInterval_teamB);
+      return;
+    }
     timeB_seconds--;
     let timeB_formatted = convertSecondsToTime(timeB_seconds);
     setClockTime("teamB", timeB_formatted);
   } else if (team === "teamA") {
     let timeA = getClockTime("teamA");
     let timeA_seconds = convertTimeToSeconds(timeA);
+    if (timeA_seconds === 0) {
+      clearInterval(clockInterval_teamA);
+      return;
+    }
     timeA_seconds--;
     let timeA_formatted = convertSecondsToTime(timeA_seconds);
     setClockTime("teamA", timeA_formatted);
@@ -96,6 +104,31 @@ function updatePenaltyCounter(team, reset = false) {
     team === "teamA" ? "penalties_count_A" : "penalties_count_B"
   );
   element.innerText = reset ? 0 : Number(element.innerText) + 1;
+}
+
+function removePenalty(team) {
+  if (!isGameStarted && isGameFinished) {
+    alert(translateOnly("alert_game_has_not_started"));
+    return;
+  }
+
+  if (isGameStarted && isGameFinished) {
+    alert(translateOnly("alert_game_has_ended"));
+    return;
+  }
+
+  if (isGameStarted && !isGameFinished) {
+    let element = document.getElementById(
+      team === "teamA" ? "penalties_count_A" : "penalties_count_B"
+    );
+
+    if (Number(element.innerText) > 0) {
+      let penaltyValue = convertTimeToSeconds(getClockTime("time-penalty"));
+      let teamValue = convertTimeToSeconds(getClockTime(team));
+      setClockTime(team, convertSecondsToTime(teamValue + penaltyValue));
+      element.innerText = Number(element.innerText) - 1;
+    }
+  }
 }
 
 // Game Clock Actions
@@ -147,7 +180,7 @@ function pauseResumeClock() {
 
 function penalty(team) {
   if (!isGameFinished) {
-    pauseClocks();
+    // pauseClocks();
     penaltyTeam(team);
     updatePenaltyCounter(team);
   } else {
