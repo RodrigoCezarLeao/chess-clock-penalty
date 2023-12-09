@@ -62,6 +62,10 @@ const intl = {
     "pt-br": "Trocar",
     "en-us": "Turn",
   },
+  title: {
+    "pt-br": "Relógio de Xadrez com Penalidade",
+    "en-us": "Penalty Chess Clock",
+  },
   "": {
     "pt-br": "",
     "en-us": "",

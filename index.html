@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chess Clock Penalty</title>
+    <title id="title"></title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="/assets/shotcut.ico">
 </head>
 <body>
     <header>
@@ -53,9 +54,10 @@
         </div>
 
         <div class="penaulty-line">
-            <img onclick="penalty('teamA')" src="https://icons-for-free.com/iconfiles/png/512/error-131994968044915593.png"/>
+            <img onclick="penalty('teamA')" src="https://icons-for-free.com/iconfiles/png/512/error-131994968044915593.png"/>            
             <span id="penalties_A"></span>
             <span id="penalties_count_A">0</span>
+            <img onclick="removePenalty('teamA')" src="assets/return.png" id="return-penalty-A" />
         </div>
         
         <!-- <button onclick="handleGameClock()"><img style="width: 70px" src="https://cdn-icons-png.flaticon.com/512/109/109197.png"></button> -->
@@ -65,11 +67,12 @@
         </button>
         <!-- <button onclick="pauseResumeClock()"><img style="width: 70px" src="https://cdn-icons-png.flaticon.com/512/27/27185.png" /></button> -->
         <button class="main-buttons" onclick="pauseResumeClock()"><img src="assets/play-pause.png" /></button>
-        
+
         <div class="penaulty-line">
-            <img onclick="penalty('teamB')" src="https://icons-for-free.com/iconfiles/png/512/error-131994968044915593.png"/>
+            <img onclick="penalty('teamB')" src="https://icons-for-free.com/iconfiles/png/512/error-131994968044915593.png"/>            
             <span id="penalties_B"></span>
             <span id="penalties_count_B">0</span>
+            <img onclick="removePenalty('teamB')" src="assets/return.png" id="return-penalty-B" />
         </div>
 
         <div id="teamB">
@@ -96,8 +99,9 @@
 <!-- Colocar regras de zerar o relógio e desabilitar botões - OK -->
 <!-- Colocar contador de penalidades - OK -->
 <!-- Melhorar Ícones - OK -->
-<!-- Habilitar JS ou informativo -->
-<!-- Colocar ícone shotcut -->
-<!-- Retirar penalidade -->
+<!-- Colocar ícone shotcut - OK -->
+<!-- Retirar penalidade - OK -->
 <!-- Confirmar penalidades?? -->
+<!-- Habilitar JS ou informativo -->
+<!-- Trocar alert por message box -->
 <!-- Log de 'jogadas' -->
